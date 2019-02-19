@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+  <script
+    src="https://code.jquery.com/jquery-3.3.1.js"
+    integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
+    crossorigin="anonymous"></script>
+<meta charset="UTF-8">
+<title>Home</title>
+<style>
+.page{
+  border: 2px solid #028bff;
+  text-align: center;
+  height: 90vh;
+  font-size: 18px;
+  border-radius: 8px;
+}
+  .rainbow-text {
+
+  -webkit-animation: rainbow 3s infinite;
+
+  -ms-animation: rainbow 3s infinite;
+
+  animation: rainbow 3s infinite;
+}
+
+@-webkit-keyframes rainbow{
+  0%{color: black;}
+  10%{color: #001c33;}
+	20%{color: #002c51;}
+  30%{color: #003e72;}
+	40%{color: #004c8c;}
+  50%{color: #005ba8;}
+	60%{color: #006bc6;}
+  70%{color: #007ae2;}
+  80%{color: #0084f4;}
+  90%{color: #028bff;}
+	100%{color: #1e98ff;}
+}
+@-ms-keyframes rainbow{
+  0%{color: black;}
+  10%{color: #002c51;}
+	20%{color: #006bc6;}
+	40%{color: #028bff;}
+	60%{color: #006bc6;}
+	100%{color: #002c51;}
+}
+@keyframes rainbow{
+  0%{color: black;}
+  10%{color: #002c51;}
+	20%{color: #006bc6;}
+	40%{color: #028bff;}
+	60%{color: #006bc6;}
+	100%{color: #002c51;}
+}
+
+.intext{
+  border: 1px solid #028bff;
+  border-radius: 50px;
+  background-color: #028bff;
+  color: white;
+  font-size: 20px;
+}
+
+.friend{
+  width: 60%;
+  cursor: pointer;
+  background-color: white;
+  border: 2px solid #028bff;
+  border-radius: 50px;
+  color:#028bff;
+  font-size: 16px;
+  transition: 0.2s;
+  margin: auto;
+}
+
+.friend:hover{
+  background-color: #028bff;
+  color:white;
+}
+
+.conv-top{
+  border: 2px solid #028bff;
+  border-radius: 6px;
+  height: 85%;
+}
+
+.conv-bot{
+  margin-top: -2px;
+  border: 2px solid #028bff;
+  border-radius: 6px;
+  height: 10%;
+  display: flex;
+  align-items: center;
+  justify-content: center
+}
+
+.msgbox{
+  border: none;
+  height: 100%;
+  width: 80%;
+  background: none;
+}
+
+.msgbox:focus{
+  outline: none;
+}
+
+.sendbtn{
+  border: none;
+  height: 100%;
+  width: 20%;
+  background-color: #028bff;
+  font-size: 30px;
+  cursor: pointer;
+  color: white;
+  transition: 0.2s;
+}
+
+.sendbtn:hover{
+  background-color: white;
+  color: #028bff;
+}
+
+.message{
+  background-color: #028bff;
+  border: 1px solid #028bff;
+  border-radius: 16px;
+  color: white;
+  margin-top: 4px;
+  float: right;
+  padding-left: 8px;
+  padding-right: 8px;
+  margin-right: 8px;
+}
+
+.loadmore{
+  border:1px solid #028bff;
+  color:white;
+  background-color:#028bff;
+  display:inline-block;
+  margin-top:4px;
+  cursor: pointer;
+  border-radius: 16px;
+}
+
+.messagefrom{
+  background-color: #f2f2f2;
+  border: 1px solid gray;
+  border-radius: 16px;
+  color: black;
+  margin-top: 4px;
+  float: left;
+  padding-left: 8px;
+  padding-right: 8px;
+  margin-left: 8px;
+
+}
+
+</style>
+</head>
+<body class="bg-light" style="user-select:none">
+  <nav class="navbar navbar-expand sticky-top navbar-light bg-light">
+  <a class="navbar-brand rainbow-text" href="/TalkWebClient/home">TooTalkative</a>
+    <ul class="navbar-nav mr-auto">
+
+      <li class="nav-item">
+        <a class="nav-link" href="#">Friends</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">Conversations</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">Settings</a>
+      </li>
+
+
+
+    </ul>
+    <div class="d-none d-md-inline-block mr-4 text-muted" id="randText">Chat your friends minimalistic!</div>
+    <a class="nav-link mr-2 text-dark d-none d-md-inline-block" href="/TalkWebClient/logout">Log out</a>
+</nav>
+<div class="container-fluid bg-white">
+  <div class="row">
+  <div class="col-md-3 page" >
+    <div class="intext" >Friend list | Conversations</div>
+      <div id="friends" style="overflow:auto">
+        <br>
+      </div>
+  </div>
+  <div class="col-md-9 page" style="margin-left:-2px;" >
+    <div class="intext">Conversation</div>
+
+      <div id="convmain" class="conv-top" style="overflow:auto">
+
+      </div>
+
+    <div class="conv-bot">
+        <input type="hidden" id="to">
+        <input class="msgbox" id="msg" type="text" autocomplete="off" disabled>
+        <input class="sendbtn" id="send" type="submit" value="Send">
+    </div>
+  </div>
+  </div>
+</div>
+
+
+
+
+<script>
+
+
+
+
+jQuery(document).ready(function($) {
+
+$.get( "http://localhost:8080/TalkWebClient/getFriends", function( data ) {
+
+  var arr = Object.values(data);
+
+  for(let i = 0; i<arr.length; i++){
+    $("#friends").append("<div class='friend' id='"+arr[i].id+"'> "+arr[i].name + " " + arr[i].surname + " </div> <br> ");
+  }
+
+  $('.friend').click(function(e){
+
+      $("#convmain").html("");
+      $('.friend').css('background-color', 'white');
+      $('.friend').css('color', '#028bff');
+      $(this).css('background-color', '#028bff');
+      $(this).css('color', 'white');
+      let to = $(this).attr('id');
+      $("#to").val(to);
+      $('#msg').removeAttr("disabled");
+
+      $("#send").click(function(event) {
+        let msg = $("#msg").val();
+        let to = $("#to").val();
+        $.post('http://localhost:8080/TalkWebClient/home', {msg: msg, to: to}, function(data) {
+        });
+        $("#msg").val("");
+      });
+
+      let counter = 0;
+
+      function loadMsgs(id, counter) {
+
+        $.post( "http://localhost:8080/TalkWebClient/getConversation", { id: id, counter: counter } )
+          .done(function( data ) {
+
+            var msgs = JSON.parse(data);
+            let lastMsg = msgs[1].computeDate;
+            console.log(lastMsg);
+            for(i in msgs){
+              if(msgs[i].from == id){
+                $("#convmain").prepend("<div id='"+i+"' class='messagefrom'> "+msgs[i].message+"</div> <div style='clear:both'></div>");
+              }else{
+                $("#convmain").prepend("<div id='"+i+"' class='message'> "+msgs[i].message+"</div> <div style='clear:both'></div>");
+              }
+              counter++;
+            }
+
+
+
+            $("#convmain").prepend("<div class='loadmore'>LOAD MORE MESSAGES</div> <div style='clear:both'></div>");
+
+            $.post('http://localhost:8080/TalkWebClient/setCurrentChat', {to:id, cd:lastMsg}, function(data) {
+
+            });
+
+            // checkForNewMsg();
+
+            $(".loadmore").click(function(event) {
+              loadMsgsWithoutPostingLastMsg(id,counter);
+              $(".loadmore").remove();
+            });
+
+        });
+      }
+
+      loadMsgs(to,counter);
+
+      // function checkForNewMsg()
+      //        {
+      //            var source = new EventSource('http://localhost:8080/TalkWebClient/newMsg');
+      //            source.onmessage=function(event)
+      //            {
+      //                $("#convmain").empty();
+      //                counter=0;
+      //                loadMsgs();
+      //            };
+      //        }
+
+  });
+
+}, "json" );
+
+
+$.get( "http://localhost:8080/TalkWebClient/getId", function( data ) {
+  var id = data.id;
+
+}, "json" );
+
+});
+
+       function loadMsgsWithoutPostingLastMsg(id,counter) {
+         $.get( "http://localhost:8080/TalkWebClient/getConversation", { id: id, counter: counter } )
+           .done(function( data ) {
+
+             var msgs = JSON.parse(data);
+             for(i in msgs){
+               if(msgs[i].from == id){
+                 $("#convmain").prepend("<div id='"+i+"' class='messagefrom'> "+msgs[i].message+"</div> <div style='clear:both'></div>");
+               }else{
+                 $("#convmain").prepend("<div id='"+i+"' class='message'> "+msgs[i].message+"</div> <div style='clear:both'></div>");
+               }
+               counter++;
+             }
+
+             $("#convmain").prepend("<div class='loadmore'>LOAD MORE MESSAGES</div> <div style='clear:both'></div>");
+
+             $(".loadmore").click(function(event) {
+               loadMsgsWithoutPostingLastMsg(id,counter);
+               $(".loadmore").remove();
+             });
+
+         });
+       }
+
+
+</script>
+
+
+
+
+
+</body>
+</html>
