@@ -26,6 +26,9 @@ public class getConversation extends HttpServlet{
 		int friendId = Integer.parseInt(req.getParameter("id"));
 		int userId = (int) req.getSession().getAttribute("id");
 		
+		if(!new File("C:/Users/Jakub/eclipse-workspace/TalkWebClient/Conversations").exists()) {
+			new File("C:/Users/Jakub/eclipse-workspace/TalkWebClient/Conversations").mkdir();
+		}
 		
 		File msgDirc = new File("C:/Users/Jakub/eclipse-workspace/TalkWebClient/Conversations/"+friendId+"-"+userId);
 		File msgDir2c = new File("C:/Users/Jakub/eclipse-workspace/TalkWebClient/Conversations/"+userId+"-"+friendId);
@@ -55,7 +58,7 @@ public class getConversation extends HttpServlet{
 		JSONObject msgs = new JSONObject();
 		int counter = 1;
 		
-		int msgsLoaded=Integer.parseInt(req.getParameter("counter"));
+		int msgsLoaded=0;
 		int msgsToLoad=files.length;
 		msgsToLoad-=msgsLoaded;
 		if(msgsToLoad>=10) {

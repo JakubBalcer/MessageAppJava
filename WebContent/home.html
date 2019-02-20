@@ -233,20 +233,23 @@ $.get( "http://localhost:8080/TalkWebClient/getFriends", function( data ) {
       let to = $(this).attr('id');
       $("#to").val(to);
       $('#msg').removeAttr("disabled");
-
+      
+      
       $("#send").click(function(event) {
         let msg = $("#msg").val();
         let to = $("#to").val();
         $.post('http://localhost:8080/TalkWebClient/home', {msg: msg, to: to}, function(data) {
         });
         $("#msg").val("");
+        if(msg){
+        	$("#convmain").append("<div class='message'> "+msg+"</div> <div style='clear:both'></div>");
+        }
       });
 
-      let counter = 0;
+      
 
-      function loadMsgs(id, counter) {
-
-        $.post( "http://localhost:8080/TalkWebClient/getConversation", { id: id, counter: counter } )
+      function loadMsgs(id) {
+        $.post( "http://localhost:8080/TalkWebClient/getConversation", { id: id} )
           .done(function( data ) {
 
             var msgs = JSON.parse(data);
@@ -258,12 +261,7 @@ $.get( "http://localhost:8080/TalkWebClient/getFriends", function( data ) {
               }else{
                 $("#convmain").prepend("<div id='"+i+"' class='message'> "+msgs[i].message+"</div> <div style='clear:both'></div>");
               }
-              counter++;
             }
-
-
-
-            $("#convmain").prepend("<div class='loadmore'>LOAD MORE MESSAGES</div> <div style='clear:both'></div>");
 
             $.post('http://localhost:8080/TalkWebClient/setCurrentChat', {to:id, cd:lastMsg}, function(data) {
 
@@ -271,29 +269,12 @@ $.get( "http://localhost:8080/TalkWebClient/getFriends", function( data ) {
 
             // checkForNewMsg();
 
-            $(".loadmore").click(function(event) {
-              loadMsgsWithoutPostingLastMsg(id,counter);
-              $(".loadmore").remove();
-            });
-
         });
       }
 
-      loadMsgs(to,counter);
-
-      // function checkForNewMsg()
-      //        {
-      //            var source = new EventSource('http://localhost:8080/TalkWebClient/newMsg');
-      //            source.onmessage=function(event)
-      //            {
-      //                $("#convmain").empty();
-      //                counter=0;
-      //                loadMsgs();
-      //            };
-      //        }
-
+      loadMsgs(to);
+      
   });
-
 }, "json" );
 
 
@@ -304,30 +285,7 @@ $.get( "http://localhost:8080/TalkWebClient/getId", function( data ) {
 
 });
 
-       function loadMsgsWithoutPostingLastMsg(id,counter) {
-         $.get( "http://localhost:8080/TalkWebClient/getConversation", { id: id, counter: counter } )
-           .done(function( data ) {
-
-             var msgs = JSON.parse(data);
-             for(i in msgs){
-               if(msgs[i].from == id){
-                 $("#convmain").prepend("<div id='"+i+"' class='messagefrom'> "+msgs[i].message+"</div> <div style='clear:both'></div>");
-               }else{
-                 $("#convmain").prepend("<div id='"+i+"' class='message'> "+msgs[i].message+"</div> <div style='clear:both'></div>");
-               }
-               counter++;
-             }
-
-             $("#convmain").prepend("<div class='loadmore'>LOAD MORE MESSAGES</div> <div style='clear:both'></div>");
-
-             $(".loadmore").click(function(event) {
-               loadMsgsWithoutPostingLastMsg(id,counter);
-               $(".loadmore").remove();
-             });
-
-         });
-       }
-
+     
 
 </script>
 
